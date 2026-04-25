@@ -1,6 +1,3 @@
-# Curso_PowerBI_Base_Comercial
-Contém arquivos, instruções e outros itens do curso
-
 # Curso Power BI + Excel Self Service BI — Base Comercial
 
 Repositório público para organização e distribuição de materiais do curso/treinamento, incluindo arquivos de **Excel (Self Service BI)** e **Power BI**.
@@ -38,4 +35,5 @@ O repositório será atualizado ao longo do tempo com novos arquivos e instruç�
 Recomenda-se sempre baixar a versão mais recente antes de iniciar uma aula/atividade.
 
 ## Licença
-Consulte o arquivo `LICENSE`.
+Salvo indicação em contrário, os materiais (arquivos, instruções e exemplos) estão sob a licença **Creative Commons Attribution 4.0 International (CC BY 4.0)**.  
+Consulte o arquivo [`LICENSE`](LICENSE).
