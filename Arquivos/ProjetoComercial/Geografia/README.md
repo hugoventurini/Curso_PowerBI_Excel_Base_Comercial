@@ -1,1 +1,1 @@
-
+Pasta de Trabalho do Microsoft Excel (arquivo ".xlsx"), contendo dados Geográficos do Brasil, para constituição de tabela do tipo DIMENSÃO, para compor o modelo semântico. Esta pasta de trabalho contém suas próprias consultas, via Power Query, à diversas APIs do sistema SIDRA/IBGE que fornecem dados geográficos do Brasil, e pode ser atualizada independentemente. Basta buscar o comando "Atualizar" no menu "Dados", e aplicar a opção de login "Anônimo" na janela que se abrirá após acioná-lo.
