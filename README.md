@@ -1,11 +1,13 @@
 # Curso_PowerBI_Base_Comercial
 Contém arquivos, instruções e outros itens do curso
 
-# Exemplo-Com-Dados-Comerciais
+# Curso Power BI + Excel Self Service BI — Base Comercial
 
-Repositório público de arquivos para cursos e treinamentos (Excel Self Service BI / Power BI), organizado para facilitar o acesso de alunos e convidados.
+Repositório público para organização e distribuição de materiais do curso/treinamento, incluindo arquivos de **Excel (Self Service BI)** e **Power BI**.
 
-## Como baixar (mesmo sem conta no GitHub)
+Este repositório foi pensado para facilitar o acesso de alunos e convidados — inclusive para quem **não possui conta no GitHub**.
+
+## Como baixar (sem conta no GitHub)
 
 ### Opção 1 — Baixar tudo (ZIP)
 1. Clique em **Code**
@@ -13,17 +15,27 @@ Repositório público de arquivos para cursos e treinamentos (Excel Self Service
 3. Extraia o arquivo no seu computador
 
 ### Opção 2 — Baixar por pastas/arquivos
-- Acesse a pasta **arquivos/** e navegue até o material desejado.
-- Para baixar um arquivo específico, abra o arquivo e use a opção de download.
+1. Entre na pasta **arquivos/**
+2. Navegue até o tema desejado (Excel Self Service BI ou Power BI)
+3. Abra o arquivo e faça o download
 
-## Organização
-- **instrucoes/**: materiais de apoio, orientações, roteiros, enunciados etc.
-- **arquivos/**: arquivos utilizados nas aulas/treinamentos (com subpastas).
-  - **arquivos/exercicios/**: arquivos base para os exercícios
-  - **arquivos/solucoes/**: exemplos resolvidos (serão adicionados posteriormente)
+## Organização do repositório
+
+- **instrucoes/**  
+  Orientações, roteiros, enunciados, guias e materiais de apoio.
+
+- **arquivos/**  
+  Arquivos usados nas aulas/treinamentos, organizados por tema e por tipo:
+  - `excel-self-service-bi/`
+    - `exercicios/` (arquivos base para os alunos)
+    - `solucoes/` (arquivos resolvidos / exemplos completos — adicionados posteriormente)
+  - `power-bi/`
+    - `exercicios/`
+    - `solucoes/`
 
 ## Atualizações
-Novos arquivos e instruções serão adicionados ao longo do tempo. Recomenda-se sempre baixar a versão mais recente.
+O repositório será atualizado ao longo do tempo com novos arquivos e instruções.  
+Recomenda-se sempre baixar a versão mais recente antes de iniciar uma aula/atividade.
 
 ## Licença
 Consulte o arquivo `LICENSE`.
