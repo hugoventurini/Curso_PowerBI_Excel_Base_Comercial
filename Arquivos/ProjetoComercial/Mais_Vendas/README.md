@@ -1,1 +1,1 @@
-
+Arquivos diversos, em formato CSV, que contém mais registros de vendas. Utilize-os para ampliar o relatório, adotando o procedimento de salvá-los na mesma pasta/diretório do arquivo base, localizado na pasta "Realizado".
