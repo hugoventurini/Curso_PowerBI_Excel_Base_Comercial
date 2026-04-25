@@ -1,1 +1,1 @@
-
+Utilize estes arquivos para estudar e compreender o mecanismo de conexão do Power Query com uma fonte de dados como planilhas do Excel (xlsx), e as inúmeras possibilidades de tratamento e transformação.
