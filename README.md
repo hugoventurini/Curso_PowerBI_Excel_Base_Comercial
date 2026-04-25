@@ -18,10 +18,10 @@ Este repositório foi pensado para facilitar o acesso de alunos e convidados —
 
 ## Organização do repositório
 
-- **instrucoes/**  
+- **Instrucões/**  
   Orientações, roteiros, enunciados, guias e materiais de apoio.
 
-- **arquivos/**  
+- **Arquivos/**  
   Arquivos usados nas aulas/treinamentos, organizados por tema e por tipo:
   - `excel-self-service-bi/`
     - `exercicios/` (arquivos base para os alunos)
