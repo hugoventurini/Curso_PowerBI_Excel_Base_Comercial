@@ -1,1 +1,1 @@
-Arquivo que contém os dados de CLIENTES, para constituição de tabela do tipo DIMENSÃO
+Pasta de Trabalho do Microsoft Excel (arquivo ".xlsx"), contendo dados de Clientes, para constituição de tabela do tipo DIMENSÃO, para compor o modelo semântico.
