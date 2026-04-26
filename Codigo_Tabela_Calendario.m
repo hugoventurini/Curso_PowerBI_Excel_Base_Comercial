@@ -1,10 +1,15 @@
+// Código M para tabela calendário calculada automaticamente, bilíngue, com estações do ano
+
+
 let
     // Aplicação da função "List.Dates" à partir de seus parâmetros para construção de tabela calendário automática.
     Fonte = List.Dates(#date(1901, 1, 1), 72684, #duration(1, 0, 0, 0)),
 
-    // FERIADOS NACIONAIS INTERNOS
+    // --------------------------------------------------------------------------------------------------------------
+    // Feridados nacionais calculados
+    // --------------------------------------------------------------------------------------------------------------
 
-    // Função para calcular a Páscoa usando o algoritmo de Meeus/Jones/Butcher
+    // Função para calcular a Páscoa (algoritmo de Meeus/Jones/Butcher)
     fnPascoa = (ano as number) as date =>
         let
             a = Number.Mod(ano, 19),
@@ -69,9 +74,9 @@ let
     // Tabela interna de feriados
     FeriadosTabela = Table.FromRows(FeriadosGerados, {"Data", "Feriado"}),
 
-    // =====================
-    // AGRUPAR FERIADOS POR DATA E CONCATENAR
-    // =====================
+    // ------------------------------------------------------------------------------------------
+    // Agrupando feriados por data
+    // ------------------------------------------------------------------------------------------
     FeriadosTabelaUnica =
         Table.Group(
             FeriadosTabela,
@@ -101,9 +106,9 @@ let
     IniciodoAno = Table.AddColumn(AnoAdd, "Início do Ano", each Date.StartOfYear([Data]), type date),
     FimdoAno = Table.AddColumn(IniciodoAno, "Fim do Ano", each Date.EndOfYear([Data]), type date),
 
-    // =====================
-    // CAMPOS DE MÊS
-    // =====================
+    // ------------------------------------------------------------------------------------------------------
+    // Campos relativos aos meses
+    // ------------------------------------------------------------------------------------------------------
     NumMesAdd = Table.AddColumn(FimdoAno, "Mês", each Date.Month([Data]), Int64.Type),
 
     NomeMesAdd =
@@ -133,11 +138,11 @@ let
             type text
         ),
 
-    // Meses em inglês (intercalados, também com ordenação invisível)
+    // Meses em inglês
     MonthNameEN =
         Table.AddColumn(
             InicialMesAdd,
-            "Month Name EN",
+            "Month Name",
             each Text.Repeat(Character.FromNumber(8203), 12 - Date.Month([Data])) &
                  Text.Start(Date.ToText([Data], "MMMM", "en-US"), 3),
             type text
@@ -146,7 +151,7 @@ let
     MonthFullEN =
         Table.AddColumn(
             MonthNameEN,
-            "Month Full EN",
+            "Month Full",
             each Text.Repeat(Character.FromNumber(8203), 12 - Date.Month([Data])) &
                  Text.Proper(Date.ToText([Data], "MMMM", "en-US")),
             type text
@@ -155,7 +160,7 @@ let
     MonthInitialEN =
         Table.AddColumn(
             MonthFullEN,
-            "Month Initial EN",
+            "Month Initial",
             each Text.Repeat(Character.FromNumber(8203), 12 - Date.Month([Data])) &
                  Text.Start(Date.ToText([Data], "MMMM", "en-US"), 1),
             type text
@@ -165,9 +170,9 @@ let
     FimDoMes = Table.AddColumn(InicioDoMes, "Fim do Mês", each Date.EndOfMonth([Data]), type date),
     DiasMesAdd = Table.AddColumn(FimDoMes, "Dias do Mês", each Date.DaysInMonth([Data]), Int64.Type),
 
-    // =====================
-    // NOVAS COLUNAS: ACUMULADO / FUTURO
-    // =====================
+    // ----------------------------------------------------------------------------------------------------------------
+    // Campos estratégicos de agrupamento e previsão
+    // ----------------------------------------------------------------------------------------------------------------
 
     // Status dos meses do ano atual
     AddStatusMesAnoAtual =
@@ -211,9 +216,9 @@ let
             type text
         ),
 
-    // =====================
-    // CAMPOS DE TRIMESTRE
-    // =====================
+    // -------------------------------------------------------------------------------
+    // Campos relativos ao trimestre
+    // -------------------------------------------------------------------------------
     TrimAdd =
         Table.AddColumn(
             AddStatusDiaMesAtual,
@@ -250,7 +255,7 @@ let
     QuarterEN =
         Table.AddColumn(
             TrimAnoAdd,
-            "Quarter EN",
+            "Quarter",
             each "Q" & Number.ToText(Date.QuarterOfYear([Data])),
             type text
         ),
@@ -258,14 +263,14 @@ let
     YearQuarterEN =
         Table.AddColumn(
             QuarterEN,
-            "Year-Quarter EN",
-            each Text.Combine({Text.From([Ano]), [Quarter EN]}, " "),
+            "Year-Quarter",
+            each Text.Combine({Text.From([Ano]), [Quarter]}, " "),
             type text
         ),
 
-    // =====================
-    // CAMPOS DE SEMESTRE
-    // =====================
+    // ---------------------------------------------------------------------------------------------------
+    // Campos relativos aos semestres
+    // ---------------------------------------------------------------------------------------------------
     SemestreAdd =
         Table.AddColumn(
             YearQuarterEN,
@@ -286,7 +291,7 @@ let
     SemesterEN =
         Table.AddColumn(
             SemestreAnoAdd,
-            "Semester EN",
+            "Semester",
             each if [Mês] > 6 then "H2" else "H1",
             type text
         ),
@@ -294,14 +299,14 @@ let
     YearSemesterEN =
         Table.AddColumn(
             SemesterEN,
-            "Year-Semester EN",
-            each Text.Combine({Text.From([Ano]), [Semester EN]}, " "),
+            "Year-Semester",
+            each Text.Combine({Text.From([Ano]), [Semester]}, " "),
             type text
         ),
 
-    // =====================
-    // CAMPOS DE SEMANA
-    // =====================
+    // --------------------------------------------------------------------------------------------------
+    // Campos relativos as semanas
+    // --------------------------------------------------------------------------------------------------
     SemAnoAdd =
         Table.AddColumn(
             YearSemesterEN,
@@ -322,7 +327,7 @@ let
     WeekOfYearEN_Short =
         Table.AddColumn(
             SemAnoTrat,
-            "Week of Year EN (Short)",
+            "Week of Year (Short)",
             each "W" & Text.From(Date.WeekOfYear([Data])),
             type text
         ),
@@ -330,7 +335,7 @@ let
     WeekOfYearEN_Long =
         Table.AddColumn(
             WeekOfYearEN_Short,
-            "Week of Year EN (Long)",
+            "Week of Year (Long)",
             each Text.From(Date.WeekOfYear([Data])) & "th Week",
             type text
         ),
@@ -349,7 +354,7 @@ let
     YearWeekEN_Short =
         Table.AddColumn(
             AnoSemanaAdd,
-            "Year-Week EN (Short)",
+            "Year-Week (Short)",
             each Text.From([Ano]) & "-W" &
                  (if Text.Length(Text.From([Semana Ano])) < 2
                   then "0" & Text.From([Semana Ano])
@@ -360,7 +365,7 @@ let
     YearWeekEN_Long =
         Table.AddColumn(
             YearWeekEN_Short,
-            "Year-Week EN (Long)",
+            "Year-Week (Long)",
             each Text.From([Ano]) & " " &
                  Text.From([Semana Ano]) & "th Week",
             type text
@@ -386,7 +391,7 @@ let
     WeekOfMonthEN_Short =
         Table.AddColumn(
             SemMesTrat,
-            "Week of Month EN (Short)",
+            "Week of Month (Short)",
             each "W" & Text.From(Date.WeekOfMonth([Data])),
             type text
         ),
@@ -394,7 +399,7 @@ let
     WeekOfMonthEN_Long =
         Table.AddColumn(
             WeekOfMonthEN_Short,
-            "Week of Month EN (Long)",
+            "Week of Month (Long)",
             each Text.From(Date.WeekOfMonth([Data])) & "th Week",
             type text
         ),
@@ -415,9 +420,9 @@ let
             type date
         ),
 
-    // =====================
-    // CAMPOS DE DIA
-    // =====================
+    // -----------------------------------------------------------------------------------
+    // Campos relativos aos dias
+    // -----------------------------------------------------------------------------------
     DiaAdd =
         Table.AddColumn(
             FimDaSemana,
@@ -469,11 +474,11 @@ let
             type text
         ),
 
-    // Dia da semana em inglês (intercalado)
+    // Dia da semana em inglês
     WeekdayEN =
         Table.AddColumn(
             InicialDiaAdd,
-            "Weekday EN",
+            "Weekday",
             each Text.Repeat(Character.FromNumber(8203), 6 - Date.DayOfWeek([Data])) &
                  Date.ToText([Data], "dddd", "en-US"),
             type text
@@ -482,7 +487,7 @@ let
     WeekdayShortEN =
         Table.AddColumn(
             WeekdayEN,
-            "Weekday Short EN",
+            "Weekday Short",
             each Text.Repeat(Character.FromNumber(8203), 6 - Date.DayOfWeek([Data])) &
                  Text.Start(Date.ToText([Data], "ddd", "en-US"), 3),
             type text
@@ -491,15 +496,15 @@ let
     WeekdayInitialEN =
         Table.AddColumn(
             WeekdayShortEN,
-            "Weekday Initial EN",
+            "Weekday Initial",
             each Text.Repeat(Character.FromNumber(8203), 6 - Date.DayOfWeek([Data])) &
                  Text.Start(Date.ToText([Data], "dddd", "en-US"), 1),
             type text
         ),
 
-    // =====================
-    // MERGE COM FERIADOS (SEM DUPLICAÇÃO)
-    // =====================
+    // ----------------------------------------------------------------------------------------------------
+    // Mescla com os feriados, deduplicados
+    // ----------------------------------------------------------------------------------------------------
     FeriadosAdd =
         Table.NestedJoin(
             WeekdayInitialEN,
@@ -518,9 +523,9 @@ let
             {"Feriado"}
         ),
 
-    // =====================
-    // DIA ÚTIL? (BRASIL)
-    // =====================
+    // ----------------------------------------------------------------------------------------------------
+    // Dias úteis em português
+    // ----------------------------------------------------------------------------------------------------
     Util =
         Table.AddColumn(
             Feriados,
@@ -533,9 +538,9 @@ let
             type text
         ),
 
-    // =====================
-    // AJUSTES FINAIS
-    // =====================
+    // -----------------------------------------------------------------------------------------------------
+    // Ajuste interno
+    // -----------------------------------------------------------------------------------------------------
     Rename =
         Table.RenameColumns(
             Util,
@@ -557,8 +562,8 @@ let
                 {"Mês", Text.Proper, type text},
                 {"Mês Inicial", Text.Proper, type text},
                 {"Dia Semana Inicial", Text.Proper, type text},
-                {"Month Full EN", Text.Proper, type text},
-                {"Weekday EN", Text.Proper, type text}
+                {"Month Full", Text.Proper, type text},
+                {"Weekday", Text.Proper, type text}
             }
         ),
 
@@ -602,7 +607,6 @@ let
             type text
         ),
 
-    // *** LÓGICA ORIGINAL MANTIDA ***
     EsteDia =
         Table.AddColumn(
             EsteAno,
@@ -656,9 +660,9 @@ let
             type text
         ),
 
-    // =====================
-    // CAMPOS ESPECIAIS EM INGLÊS
-    // =====================
+    // --------------------------------------------------------------------------------------------------
+    // Campos estratégicos em inglês
+    // --------------------------------------------------------------------------------------------------
     TodayEN =
         Table.AddColumn(
             TrimAtual,
@@ -697,7 +701,7 @@ let
             each if Date.From(DateTime.LocalNow()) >= [Início da Semana]
                     and Date.From(DateTime.LocalNow()) <= [Fim da Semana]
                  then "This Week"
-                 else Record.Field(_, "Week of Month EN (Short)"),
+                 else Record.Field(_, "Week of Month (Short)"),
             type text
         ),
 
@@ -707,7 +711,7 @@ let
             "This Month",
             each if Date.Month([Data]) = Date.Month(DateTime.LocalNow())
                  then "This Month"
-                 else [Month Full EN],
+                 else [Month Full],
             type text
         ),
 
@@ -718,7 +722,7 @@ let
             each if Date.From(DateTime.LocalNow()) >= [Início do Mês]
                     and Date.From(DateTime.LocalNow()) <= [Fim do Mês]
                  then "This Month"
-                 else [Month Full EN],
+                 else [Month Full],
             type text
         ),
 
@@ -729,13 +733,13 @@ let
             each if Date.From(DateTime.LocalNow()) >= [Início do Trimestre]
                     and Date.From(DateTime.LocalNow()) <= [Fim do Trimestre]
                  then "This Quarter"
-                 else [Quarter EN],
+                 else [Quarter],
             type text
         ),
 
-    // =====================
-    // WORKDAY GLOBAL (APENAS FIM DE SEMANA COMO NÃO ÚTIL)
-    // =====================
+    // ---------------------------------------------------------------------------------------------------
+    // Dias úteis - interpretação global, descontando somente finais de semana
+    // ---------------------------------------------------------------------------------------------------
     WorkdayEN =
         Table.AddColumn(
             ThisQuarterEN,
@@ -746,15 +750,15 @@ let
             type text
         ),
 
-    // =====================
-    // ESTAÇÕES METEOROLÓGICAS – SUL E NORTE (PT/EN)
-    // =====================
+    // -----------------------------------------------------------------------------------------------------
+    // Estações do ano no contexto meteorológico – hemisfério sul e hemisfério norte
+    // -----------------------------------------------------------------------------------------------------
 
-    // Hemisfério Sul – Português
+    // Hemisfério Sul em Português
     EstacaoMeteoSulPT =
         Table.AddColumn(
             WorkdayEN,
-            "Estação Meteorológica Sul (PT)",
+            "Estação Meteorológica Sul",
             each
                 let
                     m = Date.Month([Data])
@@ -766,11 +770,11 @@ let
             type text
         ),
 
-    // Hemisfério Sul – Inglês
+    // Hemisfério Sul em Inglês
     EstacaoMeteoSulEN =
         Table.AddColumn(
             EstacaoMeteoSulPT,
-            "Meteorological Season South (EN)",
+            "Meteorological Season South",
             each
                 let
                     m = Date.Month([Data])
@@ -782,11 +786,11 @@ let
             type text
         ),
 
-    // Hemisfério Norte – Português (estações invertidas)
+    // Hemisfério Norte em Português (estações invertidas)
     EstacaoMeteoNortePT =
         Table.AddColumn(
             EstacaoMeteoSulEN,
-            "Estação Meteorológica Norte (PT)",
+            "Estação Meteorológica Norte",
             each
                 let
                     m = Date.Month([Data])
@@ -798,11 +802,11 @@ let
             type text
         ),
 
-    // Hemisfério Norte – Inglês (estações invertidas)
+    // Hemisfério Norte em Inglês (estações invertidas)
     EstacaoMeteoNorteEN =
         Table.AddColumn(
             EstacaoMeteoNortePT,
-            "Meteorological Season North (EN)",
+            "Meteorological Season North",
             each
                 let
                     m = Date.Month([Data])
@@ -815,4 +819,3 @@ let
         )
 in
     EstacaoMeteoNorteEN
-
