@@ -22,14 +22,8 @@ Este repositório foi pensado para facilitar o acesso de alunos e convidados —
   Orientações, roteiros, enunciados, guias e materiais de apoio.
 
 - **Arquivos/**  
-  Arquivos usados nas aulas/treinamentos, organizados por tema e por tipo:
-  - `excel-self-service-bi/`
-    - `exercicios/` (arquivos base para os alunos)
-    - `solucoes/` (arquivos resolvidos / exemplos completos — adicionados posteriormente)
-  - `power-bi/`
-    - `exercicios/`
-    - `solucoes/`
-
+  Arquivos usados nas aulas/treinamentos
+  
 ## Atualizações
 O repositório será atualizado ao longo do tempo com novos arquivos e instruções.  
 Recomenda-se sempre baixar a versão mais recente antes de iniciar uma aula/atividade.
